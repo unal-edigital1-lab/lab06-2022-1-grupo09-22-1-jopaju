@@ -10,7 +10,5 @@ module FSM_game (
 		output px_wr
    );
 
-	
-	
 	/**aca va el codigo de cada grupo**/
 endmodule

@@ -33,16 +33,44 @@ module test_VGA(
 	// input/output
 	
 	
-	input wire bntr,//botones de control del juego, para el test no hacen nada
-	input wire bntl//
+	input wire bntr1,//botones de control del juego, para el test no hacen nada
+	input wire bntl1,
+	input wire bntr2,
+	input wire bntl2 //
 		
 );
 
-// TAMAÑO DE visualización 
-parameter CAM_SCREEN_X = 160;
-parameter CAM_SCREEN_Y = 120;
+// TAMAÑO DE LAS RAQUETAS
+parameter CAM_SCREEN_X = 150;
+parameter CAM_SCREEN_Y = 12;
 
-localparam AW = 15; // LOG2(CAM_SCREEN_X*CAM_SCREEN_Y)
+parameter BALL_X =12;
+parameter BALL_Y=12;
+
+
+
+
+
+
+//reloj botones
+
+
+reg [30:0] cfreq=0;
+wire enable;
+
+// Divisor de frecuecia
+
+assign enable = cfreq[16];
+always @(posedge clk) begin
+  if(rst==0) begin
+		cfreq <= 0;
+	end else begin
+		cfreq <=cfreq+1;
+	end
+end
+
+
+localparam AW = 8; // LOG2(CAM_SCREEN_X*CAM_SCREEN_Y)
 localparam DW = 12;
 
 // El color es RGB 444
@@ -50,6 +78,38 @@ localparam RED_VGA =   12'b111100000000;
 localparam GREEN_VGA = 12'b000011110000;
 localparam BLUE_VGA =  12'b000000001111;
 
+ reg [9:0] cont;
+ initial cont=10'b0101000000;
+
+ reg [9:0] cont2;
+ initial cont2=10'b0101000000;
+ 
+ reg [9:0] contx;
+ initial contx=10'b0101000000;
+
+ reg [9:0] conty;
+ initial conty=10'b0011110000;
+ 
+ reg [13:0] delay;
+ initial delay=14'b00000000000000;
+ 
+ 
+reg [3:0] marcadorverde;
+initial marcadorverde=4'b0000;
+
+reg [3:0] marcadorrojo;
+initial marcadorrojo=4'b0000;
+ 
+ 
+ 
+ //banderas para que la bola se mueva arriba o abajo o izquierda o derecha
+ reg banx;
+ initial banx=0;
+ reg bany;
+ initial bany=0;
+ 
+ reg ban_marcador;
+ initial ban_marcador=0;
 
 // Clk 
 wire clk12M;
@@ -62,6 +122,14 @@ wire  [DW-1: 0] DP_RAM_data_in;
 wire DP_RAM_regW;
 
 reg  [AW-1: 0] DP_RAM_addr_out;  
+
+
+
+
+
+
+
+
 	
 // Conexión VGA Driver
 wire [DW-1:0]data_mem;	   // Salida de dp_ram al driver VGA
@@ -108,7 +176,7 @@ buffer_ram_dp buffer memoria dual port y reloj de lectura y escritura separados
 Se debe configurar AW  según los calculos realizados en el Wp01
 se recomiendia dejar DW a 8, con el fin de optimizar recursos  y hacer RGB 332
 **************************************************************************** */
-buffer_ram_dp #( AW,DW,"C:/Users/HP/Documents/GitHub/lab06-2022-1-grupo09-22-1-jopaju/hdl/scr/image.men")
+buffer_ram_dp #( AW,DW,"C:/Users/HP/Documents/GitHub/lab06-2022-1-grupo09-22-1-jopaju/hdl/proyecto/image.men")
 	DP_RAM(  
 	.clk_w(clk25M), 
 	.addr_in(DP_RAM_addr_in), 
@@ -145,34 +213,107 @@ VGA si la imagen de la camara es menor que el display  VGA, los pixeles
 adicionales seran iguales al color del último pixel de memoria 
 **************************************************************************** */
 
+
+
 always @ (VGA_posX, VGA_posY) begin
-		if ((VGA_posX>CAM_SCREEN_X-1) || (VGA_posY>CAM_SCREEN_Y-1))
-			DP_RAM_addr_out=19212;
+		if ((VGA_posX>cont) && (VGA_posX<cont+CAM_SCREEN_X) && (VGA_posY>10) &&(VGA_posY<25) )
+			DP_RAM_addr_out=1;
 		else
-			DP_RAM_addr_out=VGA_posX+VGA_posY*CAM_SCREEN_Y;
+			DP_RAM_addr_out=0;
+		
+		if ((VGA_posX>cont2) && (VGA_posX<cont2+CAM_SCREEN_X) && (VGA_posY>410) &&(VGA_posY<425) )
+			DP_RAM_addr_out=2;
+		
+		if ((VGA_posX>contx) && (VGA_posX<contx+BALL_X) && (VGA_posY>conty) &&(VGA_posY<conty+BALL_Y) )
+			DP_RAM_addr_out=2;
+		
 end
 
 
 
-always @(posedge clk) begin
+always @ ( posedge enable) begin
+
+
+	if (~bntl1)  cont=cont-1;
+	if (cont<=2) cont=2;	
+	if (~bntr1) cont=cont+1;
+	if (cont>480) cont=480;
+	
+	if (~bntl2)  cont2=cont2-1;
+	if (cont2<=2) cont2=2;	
+	if (~bntr2) cont2=cont2+1;
+	if (cont2>480) cont2=480;
+	
+	if (ban_marcador) begin
+		contx=10'b0101000000; 
+		conty=10'b0011110000;
+		delay=delay + 1;
+		end
+		
+		
+		
+	if (delay>=500) ban_marcador=0;
+	
+	
+	if (banx) contx = contx + 1; else contx= contx - 1;
+	if (bany) conty = conty + 1; else conty= conty - 1;
+	
+	if (contx==1) banx=1;
+	if (contx==639) banx=0;
+	
+	if (conty<=25) 
+		begin
+		bany=1;
+		
+		
+		
+		
+		
+		
+		if (contx>=cont && contx<=cont+CAM_SCREEN_X)
+			begin 
+			marcadorrojo=marcadorrojo;
+		
+			end else begin
+			marcadorrojo=marcadorrojo+1;	
+			ban_marcador=1;
+			contx=10'b0101000000;
+			conty=10'b0011110000;
+			delay=0;
+			end
+		
+		end
+		
+	if (conty>=410) 
+		begin
+		
+		bany=0;
+	
+
+		if (contx>=cont2 && contx<=cont2+CAM_SCREEN_X) marcadorverde=marcadorverde;
+				else 
+				begin
+					marcadorverde=marcadorverde+1;
+					contx=10'b0101000000;
+					conty=10'b0011110000;
+					ban_marcador=1;
+					delay=0;
+				end
+			end
+		
+	
+end
+
+
+
+
+always @ (posedge clk) begin
  clk25M = ~clk25M;
  end
+ 
 
-//assign DP_RAM_addr_out=10000;
 
-/*****************************************************************************
 
-este bloque debe crear un nuevo archivo 
-**************************************************************************** */
- FSM_game  juego(
-	 	.clk(clk25M),
-		.rst(rst),
-		.in1(btnr),
-		.in2(btnr),
-		.mem_px_addr(DP_RAM_addr_in),
-		.mem_px_data(DP_RAM_data_in),
-		.px_wr(DP_RAM_regW)
-   );
 endmodule
 
 //asignacion reloj de 25 Mhz

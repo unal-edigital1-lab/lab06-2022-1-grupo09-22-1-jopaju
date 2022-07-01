@@ -25,16 +25,16 @@ module test_VGA(
 	// VGA input/output  
     output wire VGA_Hsync_n,  // horizontal sync output
     output wire VGA_Vsync_n,  // vertical sync output
-    output wire VGA_R,	// 4-bit VGA red output
-    output wire VGA_G,  // 4-bit VGA green output
-    output wire VGA_B,  // 4-bit VGA blue output
+    output wire [3:0] VGA_R,	// 4-bit VGA red output
+    output wire [3:0] VGA_G,  // 4-bit VGA green output
+    output wire [3:0] VGA_B,  // 4-bit VGA blue output
     output wire clkout,  
  	
 	// input/output
 	
 	
-	input wire bntr,//botones de control del juego, para el test no hacen nada
-	input wire bntl//
+	input wire bntr,
+	input wire bntl
 		
 );
 
@@ -53,7 +53,7 @@ localparam BLUE_VGA =  12'b000000001111;
 
 // Clk 
 wire clk12M;
-reg clk25M;
+wire clk25M;
 
 // Conexión dual por ram
 
@@ -74,9 +74,9 @@ wire [8:0]VGA_posY;		   // Determinar la pos de memoria que viene del VGA
 la pantalla VGA es RGB 444, pero el almacenamiento en memoria se hace 332
 por lo tanto, los bits menos significactivos deben ser cero
 **************************************************************************** */
-	assign VGA_R = data_RGB444[8];
-	assign VGA_G = data_RGB444[4];
-	assign VGA_B = data_RGB444[0];
+	assign VGA_R = data_RGB444[11:8];
+	assign VGA_G = data_RGB444[7:4];
+	assign VGA_B = data_RGB444[3:0];
 
 
 
@@ -100,7 +100,7 @@ cl_25_24_quartus clk25(
 */
 
 
-//assign clk25M=clk;
+assign clk25M=clk;
 assign clkout=clk25M;
 
 /* ****************************************************************************
@@ -108,7 +108,7 @@ buffer_ram_dp buffer memoria dual port y reloj de lectura y escritura separados
 Se debe configurar AW  según los calculos realizados en el Wp01
 se recomiendia dejar DW a 8, con el fin de optimizar recursos  y hacer RGB 332
 **************************************************************************** */
-buffer_ram_dp #( AW,DW,"C:/Users/HP/Documents/GitHub/lab06-2022-1-grupo09-22-1-jopaju/hdl/scr/image.men")
+buffer_ram_dp #( AW,DW,"C:/Users/UECCI/Desktop/proyecto_digital1 2020-2/quartus/scr/image.men")
 	DP_RAM(  
 	.clk_w(clk25M), 
 	.addr_in(DP_RAM_addr_in), 
@@ -126,7 +126,7 @@ VGA_Driver640x480
 **************************************************************************** */
 VGA_Driver640x480 VGA640x480
 (
-	.rst(~rst),
+	.rst(rst),
 	.clk(clk25M), 				// 25MHz  para 60 hz de 640x480
 	.pixelIn(data_mem), 		// entrada del valor de color  pixel RGB 444 
 //	.pixelIn(RED_VGA), 		// entrada del valor de color  pixel RGB 444 
@@ -153,11 +153,6 @@ always @ (VGA_posX, VGA_posY) begin
 end
 
 
-
-always @(posedge clk) begin
- clk25M = ~clk25M;
- end
-
 //assign DP_RAM_addr_out=10000;
 
 /*****************************************************************************
@@ -174,6 +169,3 @@ este bloque debe crear un nuevo archivo
 		.px_wr(DP_RAM_regW)
    );
 endmodule
-
-//asignacion reloj de 25 Mhz
-
