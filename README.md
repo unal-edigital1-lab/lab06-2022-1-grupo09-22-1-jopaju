@@ -5,15 +5,15 @@
 
 ### Integrantes
 
-- Pablo García - correo
-- Juan Ochoa - correo
+- Pablo García - pgarcias@unal.edu.co
+- Juan Ochoa - juochoac@unal.edu.co
 - Juan Rodríguez - juarodriguezr@unal.edu.co
 
 ### Objetivos
 
+- Sintetizar los conocimientos adquiridos en los laboratorios en un proyecto
 - Recrear el videojuego PONG usando una tarjeta FPGA
 - Usar el conector VGA para visualizar imágenes en pantalla
-- 
 
 ### Introducción (Descripción del juego)
 
@@ -32,10 +32,24 @@ El control del videojuego se lleva a cabo en la FPGA, mientras que el video se e
 
 ### Proceso (Cronológico, cómo se desarrolló, primeros avances)
 
-- 
+1. El primer reto fue controlar la pantalla VGA por medio de la FPGA, para esto se interpretó y adató el código a nuestro modelo de targeta (xdxd Poner modelo aqui xdxd) pues esta solo permite usar RGB111 (un bit por cada color), mientras que el código dado por el profe estaba hecho para usar RGB444. Al intentar solucionar esto realizamos una mala lectura del archivo image.men obteniendo nuestro primer error.
+
+![imge](https://drive.google.com/file/d/1KQqeeo3_qqhuS0xSReNY062NeMn_w8mm/view?usp=sharing)
+
+Para solucionar esto se usó unicamente el último bit de cada color, es decir:
+| Linea de archivo image.men | "tradución" a binario | Último bit de cada color|
+| ------------- | ------------- |------------- |
+| F00  | 1111 0000 0000 |100|
+| 0FF  | 0000 1111 1111  |011|
+| 010  | 0000 0001 0000  |010|
+| 1F0  | 0001 1111 0000  |110|
+
+Aunque esta propuesta es ineficiente en cuanto a memoria, pues en el archivo se almacenan bits innecesarios, fue la manera mas sencilla de corregir este error obteniendo el funcionamiento esperado
+![sol_color](https://drive.google.com/file/d/1KQxNt5KF9C4R94iT3SKMFpWdjD0D9irV/view?usp=sharing)
 
 ### Cómo funciona el código (Análisis, explicación del código)
 
+- Control de pantalla VGA
 - Movimiento de la bola (rebote, puntos o no)
 - Movimiento de las raquetas (límites)
 - Marcadores
