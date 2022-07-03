@@ -1,9 +1,9 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineers:  Pablo Garcia 			pgarcias@unal.edu.co
-//					Juan Ochoa				juochoac@unal.edu.co
-//					Guillermo Rodríguez	juarodriguezr@unal.edu.co			
+// Engineers:  	Pablo Garcia 		pgarcias@unal.edu.co
+//		Juan Ochoa		juochoac@unal.edu.co
+//		Guillermo Rodríguez	juarodriguezr@unal.edu.co			
 // 
 // Create Date:    July 3 of 2022
 // Design Name: 
@@ -347,6 +347,7 @@ end
 
 
 
+//asignacion reloj de 25 Mhz
 
 always @ (posedge clk) begin
  clk25M = ~clk25M;
@@ -357,5 +358,4 @@ always @ (posedge clk) begin
 
 endmodule
 
-//asignacion reloj de 25 Mhz
 
