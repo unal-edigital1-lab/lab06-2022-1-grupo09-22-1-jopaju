@@ -126,7 +126,7 @@ video
 
 7. Reset
 
-Por último se le agrego un botón de reset el cual:
+Por último se le agrego un segundo botón de reset el cual:
 - Pone ambos score en el valor 0
 - Coloca la pelota en los valores x y y centrales
 - Reinicia la posición de ambas barritas ubicandolas en la posición central del eje x
