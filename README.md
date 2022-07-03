@@ -32,9 +32,12 @@ El control del videojuego se lleva a cabo en la FPGA, mientras que el video se e
 
 ### Proceso (Cronológico, cómo se desarrolló, primeros avances)
 
-1. El primer reto fue controlar la pantalla VGA por medio de la FPGA, para esto se interpretó y adató el código a nuestro modelo de targeta (xdxd Poner modelo aqui xdxd) pues esta solo permite usar RGB111 (un bit por cada color), mientras que el código dado por el profe estaba hecho para usar RGB444. Al intentar solucionar esto realizamos una mala lectura del archivo image.men obteniendo nuestro primer error.
+1. El primer reto fue controlar la pantalla VGA por medio de la FPGA, para esto se interpretó y adató el código a nuestro modelo de tarjeta (xdxd Poner modelo aqui xdxd) pues esta solo permite usar RGB111 (un bit por cada color), mientras que el código dado por el profe estaba hecho para usar RGB444. Al intentar solucionar esto realizamos una mala lectura del archivo image.men obteniendo nuestro primer error.
 
-![imge](https://drive.google.com/file/d/1KQqeeo3_qqhuS0xSReNY062NeMn_w8mm/view?usp=sharing&usp=embed_googleplus)
+
+<p align="center">
+  <img src="code\hdl\proyecto\Documentacion_fotografica\controlVGAerrorColor.jpg" width="300">
+</p>
 
 Para solucionar esto se usó unicamente el último bit de cada color, es decir:
 | Linea de archivo image.men | "tradución" a binario | Último bit de cada color|
@@ -45,7 +48,9 @@ Para solucionar esto se usó unicamente el último bit de cada color, es decir:
 | 1F0  | 0001 1111 0000  |110|
 
 Aunque esta propuesta es ineficiente en cuanto a memoria, pues en el archivo se almacenan bits innecesarios, fue la manera mas sencilla de corregir este error obteniendo el funcionamiento esperado
-![sol_color](https://drive.google.com/file/d/1KQxNt5KF9C4R94iT3SKMFpWdjD0D9irV/view?usp=sharing)
+<p align="center">
+  <img src="code\hdl\proyecto\Documentacion_fotografica\solucionColor.jpg" width="300">
+</p>
 
 ### Cómo funciona el código (Análisis, explicación del código)
 
