@@ -1,14 +1,16 @@
 `timescale 1ns / 1ps
 //////////////////////////////////////////////////////////////////////////////////
 // Company: 
-// Engineer: 
+// Engineers:  Pablo Garcia 			pgarcias@unal.edu.co
+//					Juan Ochoa				juochoac@unal.edu.co
+//					Guillermo Rodríguez	juarodriguezr@unal.edu.co			
 // 
-// Create Date:    10:46:19 11/04/2020
+// Create Date:    July 3 of 2022
 // Design Name: 
-// Module Name:    test_VGA
-// Project Name: 
-// Target Devices: 
-// Tool versions: 
+// Module Name:    test_VGA  // ESte archivo es el top
+// Project Name: 	 Nacho_pong
+// Target Devices: FPGA CICLONE IV
+// Tool versions:  QUARTUS PRIME 20.1
 // Description: 
 //
 // Dependencies: 
@@ -36,7 +38,7 @@ module test_VGA(
 	input wire bntr1,//botones de control del juego, para el test no hacen nada
 	input wire bntl1,
 	input wire bntr2,
-	input wire bntl2 //
+	input wire bntl2 
 		
 );
 
@@ -44,6 +46,7 @@ module test_VGA(
 parameter CAM_SCREEN_X = 150;
 parameter CAM_SCREEN_Y = 12;
 
+// PARAMETROS X Y Y DE LA BOLITA 
 parameter BALL_X =12;
 parameter BALL_Y=12;
 
@@ -58,18 +61,13 @@ parameter BALL_Y=12;
 reg [30:0] cfreq=0;
 wire enable;
 
-// Divisor de frecuecia
+// Divisor de frecuecia, se usará enable como reloj para la velocidad de la barra y 
+// la bolita
 
 assign enable = cfreq[16];
 always @(posedge clk) begin
   if(rst==0) begin
 		cfreq <= 0;
-		
-		
-			
-		
-		
-		
 		
 				
 	end else begin
@@ -225,7 +223,7 @@ VGA si la imagen de la camara es menor que el display  VGA, los pixeles
 adicionales seran iguales al color del último pixel de memoria 
 **************************************************************************** */
 
-
+//En este proceso se maneja la visualización de raquetas, pelota y marcador
 
 always @ (VGA_posX, VGA_posY) begin
 		if ((VGA_posX>cont) && (VGA_posX<cont+CAM_SCREEN_X) && (VGA_posY>25) &&(VGA_posY<40) )
@@ -248,8 +246,12 @@ always @ (VGA_posX, VGA_posY) begin
 		
 end
 
+//se utiliza un segundo reset ya que el primero desabilita el enable
 
-
+//En este proceso se analizan los botones, luego de presionar un boton debe haber un 
+//tiempo de espera
+//luego de lograr un punto se programa un tiempo de espera a traves 
+//de la variable delay
 always @ ( posedge enable) begin
 	
 	if (~rst1) begin
@@ -283,7 +285,7 @@ always @ ( posedge enable) begin
 	if (delay>=500) ban_marcador=0;
 	
 	
-	if (banx) contx = contx + 1; else contx= contx - 1;
+	if (banx) contx = contx + 1; else contx= contx - 1;//banx, bany controlan la dirección de la pelota
 	if (bany) conty = conty + 1; else conty= conty - 1;
 	
 	if (contx==1) banx=1;
@@ -296,7 +298,7 @@ always @ ( posedge enable) begin
 		
 		
 		
-		
+		//analisis para aumentar los marcadores o score
 		
 		if ((contx>=cont) && contx<=cont+CAM_SCREEN_X+5)
 			begin 
