@@ -100,7 +100,17 @@ video
 
 video
 
-3. 
+3. Desarrollo de la "pelota"
+    - Se inició pintando un cuadrado que representa la pelota y programandole movimiento en el eje x y ene eje y
+    - vvvvv
+
+4. Detectar anotación de punto
+
+5. Delay pelota
+
+6. Puntaje
+
+7. Reset
 
 
 
