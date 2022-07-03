@@ -34,7 +34,7 @@ El control del videojuego se lleva a cabo en la FPGA, mientras que el video se e
 
 1. El primer reto fue controlar la pantalla VGA por medio de la FPGA, para esto se interpretó y adató el código a nuestro modelo de targeta (xdxd Poner modelo aqui xdxd) pues esta solo permite usar RGB111 (un bit por cada color), mientras que el código dado por el profe estaba hecho para usar RGB444. Al intentar solucionar esto realizamos una mala lectura del archivo image.men obteniendo nuestro primer error.
 
-![imge](https://drive.google.com/file/d/1xt1JGIudd_YySVoKluy4L0au-sJ6Dccd/view)
+![imge](https://ssl.gstatic.com/images/branding/product/1x/drive_2020q4_32dp.png)
 
 Para solucionar esto se usó unicamente el último bit de cada color, es decir:
 | Linea de archivo image.men | "tradución" a binario | Último bit de cada color|
