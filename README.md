@@ -17,7 +17,7 @@
 
 ### Introducción (Descripción del juego)
 
-El videojuego PONG, lanzado al público por primera vez en 1972, busca simular el tenis de mesa, por lo que los jugadores que controlan las raquetas buscarán hacer que su oponente no pueda devolver la pelota. Este videojuego fue el primero en tener éxito comercial que ayudó a sentar las bases de lo que es hoy día la industria de los videojuegos [1].
+El videojuego PONG, lanzado al público por primera vez en 1972, busca simular el tenis de mesa, por lo que los jugadores que controlan las raquetas buscarán hacer que su oponente no pueda devolver la pelota. Este videojuego fue el primero en tener éxito comercial que ayudó a sentar las bases de lo que es hoy día la industria de los videojuegos [[1]](#1).
 
 Por lo tanto, el objetivo del grupo fue recrear este famoso juego, haciendo uso de los conociemientos adquiridos a través de las diferentes prácticas de laboratorio para la asignatura de Electrónica Digital I, y de las valiosas herramientas que allí tuvimos a disposición de las cuales la que más resalta es sin duda la tarjeta FPGA. Entre las nuevas habilidades aprehendidas resaltan para la culminación de este proyecto final el uso y configuración de pantallas VGA a través de sus señales de sincronización, además del aprendizaje general del lenguaje de descripción de hardware Verilog, y el software de diseño Quartus.
 
@@ -52,6 +52,58 @@ Aunque esta propuesta es ineficiente en cuanto a memoria, pues en el archivo se 
   <img src="code\hdl\proyecto\Documentacion_fotografica\solucionColor.jpg" width="300">
 </p>
 
+video
+
+.
+
+.
+
+.
+
+.
+
+.
+
+video
+
+
+
+2. Luego conociendo ya como controlar la pantalla se decidio implementar las barritas (raquetas), primero dibujandola en la pantalla y luego programando su movimiento condicionadolo a un par de botones.
+
+video
+
+.
+
+.
+
+.
+
+.
+
+.
+
+video
+
+Para despues duplicar este código y crear la barrita del segundo jugador.
+
+video
+
+.
+
+.
+
+.
+
+.
+
+.
+
+video
+
+3. 
+
+
+
 ### Cómo funciona el código (Análisis, explicación del código)
 
 - Control de pantalla VGA
@@ -68,6 +120,6 @@ Aunque esta propuesta es ineficiente en cuanto a memoria, pues en el archivo se 
 
 ### Referencias
 
-1. Wikipedia Contributors. (2022, July 1). Pong. Wikipedia; Wikimedia Foundation. https://en.wikipedia.org/wiki/Pong
+<a id="1">[1]</a> Wikipedia Contributors. (2022, July 1). Pong. Wikipedia; Wikimedia Foundation. https://en.wikipedia.org/wiki/Pong
 
 ‌
