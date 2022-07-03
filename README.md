@@ -101,8 +101,22 @@ video
 video
 
 3. Desarrollo de la "pelota"
-    - Se inició pintando un cuadrado que representa la pelota y programandole movimiento en el eje x y ene eje y
-    - vvvvv
+    - Se inició pintando un cuadrado que representa la pelota y programandole movimiento en el eje x y en el eje y
+    - Luego se verfica si la pelota esta en algun borde de la pantalla 1px - 480px para el eje x, y 1px - 640px  para en eje y. En caso de que este en aguna de estas posiciones la pelota cambia de dirección 
+
+    video
+
+    .
+
+    .
+
+    .
+
+    .
+
+    .
+
+    video
 
 4. Detectar anotación de punto
 
@@ -117,6 +131,12 @@ video
   Luego, de hacer el proyecto estable y jugable, se procedió a iniciar con el puntaje, hecho con contadores que se refelejan en pantalla con barras que se hacen más grandes dependiendo de la cantidad de puntos que realicen los jugadores. Los puntajes se establecieron hasta 7.
 
 7. Reset
+
+Por último se le agrego un segundo botón de reset el cual:
+- Pone ambos score en el valor 0
+- Coloca la pelota en los valores x y y centrales
+- Reinicia la posición de ambas barritas ubicandolas en la posición central del eje x
+
 
 
 
