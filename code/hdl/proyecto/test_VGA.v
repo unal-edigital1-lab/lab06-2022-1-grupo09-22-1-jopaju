@@ -149,8 +149,8 @@ wire [8:0]VGA_posY;		   // Determinar la pos de memoria que viene del VGA
 
 
 /* ****************************************************************************
-la pantalla VGA es RGB 444, pero el almacenamiento en memoria se hace 332
-por lo tanto, los bits menos significactivos deben ser cero
+Ya que la FPGA solo puede usar RGB111 solo se toma El último bit de los grupos de cuatro bits que
+representan cada uno de los colores 
 **************************************************************************** */
 	assign VGA_R = data_RGB444[8];
 	assign VGA_G = data_RGB444[4];
@@ -166,7 +166,7 @@ por lo tanto, los bits menos significactivos deben ser cero
   usar "tools -> IP Generator ..."  y general el ip con Clocking Wizard
   el bloque genera un reloj de 25Mhz usado para el VGA , a partir de una frecuencia de 12 Mhz
 **************************************************************************** */
-assign clk12M =clk;
+assign clk12M =clk; //No se usó
 
 /*
 cl_25_24_quartus clk25(
@@ -179,7 +179,7 @@ cl_25_24_quartus clk25(
 
 
 //assign clk25M=clk;
-assign clkout=clk25M;
+assign clkout=clk25M; // tampoco se uso :v
 
 /* ****************************************************************************
 buffer_ram_dp buffer memoria dual port y reloj de lectura y escritura separados
@@ -226,16 +226,21 @@ adicionales seran iguales al color del último pixel de memoria
 //En este proceso se maneja la visualización de raquetas, pelota y marcador
 
 always @ (VGA_posX, VGA_posY) begin
+		//Raqueta verde
 		if ((VGA_posX>cont) && (VGA_posX<cont+CAM_SCREEN_X) && (VGA_posY>25) &&(VGA_posY<40) )
 			DP_RAM_addr_out=1;
+		//Raqueta roja
+		if ((VGA_posX>cont2) && (VGA_posX<cont2+CAM_SCREEN_X) && (VGA_posY>410) &&(VGA_posY<425) )
+			DP_RAM_addr_out=2;
 		else
 			DP_RAM_addr_out=0;
 		
-		if ((VGA_posX>cont2) && (VGA_posX<cont2+CAM_SCREEN_X) && (VGA_posY>410) &&(VGA_posY<425) )
-			DP_RAM_addr_out=2;
-		
+
+		// Dibujo de la pelota en base a los contadores en x y y.
 		if ((VGA_posX>contx) && (VGA_posX<contx+BALL_X) && (VGA_posY>conty) &&(VGA_posY<conty+BALL_Y) )
 			DP_RAM_addr_out=2;
+
+		// Dibujo de los marcadores.
 		if ((VGA_posX>=1) && (VGA_posX<=(marcadorverde*15)) && (VGA_posY>=5) && (VGA_posY<=17))
 			DP_RAM_addr_out=1;
 		if ((VGA_posX>=1) && (VGA_posX<=(marcadorrojo*15)) && (VGA_posY>=450) && (VGA_posY<=467))
@@ -254,63 +259,72 @@ end
 //de la variable delay
 always @ ( posedge enable) begin
 	
+	// Reset de juego 
 	if (~rst1) begin
+		//Reinicio Score
 		marcadorrojo=0;
 		marcadorverde=0;
+
+		//Centrar pelota
 		contx=10'b0101000000; 
 		conty=10'b0011110000;
+
+		// Centrar raquetas
 		cont=10'b0101000000;
 		cont2=10'b0101000000;
 		
 		end
 
+	// Movimiento Raqueta verde
 	if (~bntl1)  cont=cont-1;
-	if (cont<=2) cont=2;	
 	if (~bntr1) cont=cont+1;
-	if (cont>480) cont=480;
-	
+	// Movimiento Raqueta roja
 	if (~bntl2)  cont2=cont2-1;
-	if (cont2<=2) cont2=2;	
 	if (~bntr2) cont2=cont2+1;
+
+	// Limites de raquetas (para que no se salgan de la pantalla)
+	if (cont<=2) cont=2;	//R verde
+	if (cont>480) cont=480;
+	if (cont2<=2) cont2=2;	//R roja
 	if (cont2>480) cont2=480;
 	
+
+	// Delay de pelota luego de anotar un punto
 	if (ban_marcador) begin
 		contx=10'b0101000000; 
 		conty=10'b0011110000;
 		delay=delay + 1;
 		end
-		
-		
-		
 	if (delay>=500) ban_marcador=0;
 	
-	
-	if (banx) contx = contx + 1; else contx= contx - 1;//banx, bany controlan la dirección de la pelota
+
+	//banx, bany controlan la dirección de la pelota
+	if (banx) contx = contx + 1; else contx= contx - 1;
 	if (bany) conty = conty + 1; else conty= conty - 1;
-	
+	// Cambiar bandera si detecta que esta en el borde
 	if (contx==1) banx=1;
 	if (contx==639) banx=0;
 	
-	if (conty<=40) 
+	if (conty<=40) // En 40 esta el borde interno de la raqueta verde
 		begin
 		bany=1;
 		
-		
-		
-		
 		//analisis para aumentar los marcadores o score
 		
-		if ((contx>=cont) && contx<=cont+CAM_SCREEN_X+5)
+		if ((contx>=cont) && contx<=cont+CAM_SCREEN_X+5) // pelota esta chocando con barrita verde?
 			begin 
 			marcadorrojo=marcadorrojo;
 		
-			end else begin
+			end else begin // Punto para el rival rojo
 			marcadorrojo=marcadorrojo+1;
 			ban_marcador=1;
+			// Úbicación de la pelota en el centro
 			contx=10'b0101000000;
 			conty=10'b0011110000;
+			// Comenzar delay
 			delay=0;
 			
+				// Jugador rojo llego a 7 puntos(gano) entonces se reinician los puntajes
 				if (marcadorrojo == 3'b111) begin
 				marcadorrojo = 0;
 				marcadorverde =0;
@@ -320,21 +334,24 @@ always @ ( posedge enable) begin
 		
 		end
 		
-	if (conty>=410) 
+	if (conty>=410) // En 40 esta el borde interno de la raqueta roja
 		begin
 		
 		bany=0;
 	
 
-		if (contx>=cont2 && contx<=cont2+CAM_SCREEN_X+5) marcadorverde=marcadorverde;
-				else 
+		if (contx>=cont2 && contx<=cont2+CAM_SCREEN_X+5) marcadorverde=marcadorverde; // pelota esta chocando con barrita Roja?
+				else // Punto para el rival verde
 				begin
 					marcadorverde=marcadorverde+1;
+					ban_marcador=1;
+					// Úbicación de la pelota en el centro
 					contx=10'b0101000000;
 					conty=10'b0011110000;
-					ban_marcador=1;
+					// Comenzar delay
 					delay=0;
 					
+					// Jugador verde llego a 7 puntos(gano) entonces se reinician los puntajes
 					if (marcadorverde == 3'b111) begin
 						marcadorrojo = 0;
 						marcadorverde =0;
@@ -349,7 +366,7 @@ end
 
 //asignacion reloj de 25 Mhz
 
-always @ (posedge clk) begin
+always @ (posedge clk) begin //Divisor de frecuencia facil 
  clk25M = ~clk25M;
  end
  
