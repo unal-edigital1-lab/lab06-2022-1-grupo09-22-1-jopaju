@@ -143,8 +143,66 @@ Por último se le agrego un segundo botón de reset el cual:
 ### Cómo funciona el código (Análisis, explicación del código)
 
 - Control de pantalla VGA
+Tiene dos partes fundamentales, la sincronizanción con la pantalla y el manejo de colores a travez de información en la RAM. Esta Última se procesa por medio del módulo VGA_driver.v.
+
+Es necesario sincronizar tanto en el eje x como  en el y.
+
+```verilog
+localparam SCREEN_X = 640; 	// tamaño de la pantalla visible en horizontal 
+localparam FRONT_PORCH_X =16;  
+localparam SYNC_PULSE_X = 96;
+localparam BACK_PORCH_X = 48;
+localparam TOTAL_SCREEN_X = SCREEN_X+FRONT_PORCH_X+SYNC_PULSE_X+BACK_PORCH_X; 	// total pixel pantalla en horizontal 
+
+
+localparam SCREEN_Y = 480; 	// tamaño de la pantalla visible en Vertical 
+localparam FRONT_PORCH_Y =10;  
+localparam SYNC_PULSE_Y = 2;
+localparam BACK_PORCH_Y = 33;
+localparam TOTAL_SCREEN_Y = SCREEN_Y+FRONT_PORCH_Y+SYNC_PULSE_Y+BACK_PORCH_Y; 	// total pixel pantalla en Vertical 
+
+```
+
+
+Dependiendo de la resolución de la pantalla todos los parametros anteriores variarán.
+
+```verilog
+assign posX    = countX;
+assign posY    = countY;
+
+assign pixelOut = (countX<SCREEN_X) ? (pixelIn ) : (12'b000000000000) ;
+
+assign Hsync_n = ~((countX>=SCREEN_X+FRONT_PORCH_X) && (countX<SCREEN_X+SYNC_PULSE_X+FRONT_PORCH_X)); 
+assign Vsync_n = ~((countY>=SCREEN_Y+FRONT_PORCH_Y) && (countY<SCREEN_Y+FRONT_PORCH_Y+SYNC_PULSE_Y));
+```
+Luego Se verifica si se está adentro de la pantalla de visualización y se calcúla el tiempo de los pulsos de sincronización.
+
+Para manejar los colores se uso un archivo de texto que contiene los colores del juego y este archivo se precargó en la RAM a travez del módulo buffer_ram_dp.v
+
 - Movimiento de la bola (rebote, puntos o no)
+
+Se dibuja un cuadrado que hace de pelota y cuya posición depende de dos contadores (contx, conty).
+```verilog
+    always @ (VGA_posX, VGA_posY) begin
+  // Dibujo de la pelota en base a los contadores en x y y.
+		if ((VGA_posX>contx) && (VGA_posX<contx+BALL_X) && (VGA_posY>conty) &&(VGA_posY<conty+BALL_Y) )
+			DP_RAM_addr_out=2;
+
+```
+
+Estos contadores aumentan o disminuyen dependiendo de unas banderas (banx,bany) que indican con que borde de la pantalla la pelota esta "chocando"
+```verilog
+always @ ( posedge enable) begin
+//banx, bany controlan la dirección de la pelota
+	if (banx) contx = contx + 1; else contx= contx - 1;
+	if (bany) conty = conty + 1; else conty= conty - 1;
+	// Cambiar bandera si detecta que esta en el borde
+	if (contx==1) banx=1;
+	if (contx==639) banx=0;
+```
 - Movimiento de las raquetas (límites)
+
+Se dibujan las raquetas 
 - Marcadores
 - Reset
 

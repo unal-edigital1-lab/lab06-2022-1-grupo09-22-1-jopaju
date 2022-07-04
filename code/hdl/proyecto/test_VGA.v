@@ -21,7 +21,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////
 module test_VGA(
-    input wire clk,           // board clock: 32 MHz quacho 100 MHz nexys4 
+    input wire clk,          
     input wire rst,         	// reset button
 	 input wire rst1,
 	// VGA input/output  
