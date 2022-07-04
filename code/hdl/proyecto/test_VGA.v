@@ -228,10 +228,10 @@ adicionales seran iguales al color del último pixel de memoria
 always @ (VGA_posX, VGA_posY) begin
 		//Raqueta verde
 		if ((VGA_posX>cont) && (VGA_posX<cont+CAM_SCREEN_X) && (VGA_posY>25) &&(VGA_posY<40) )
-			DP_RAM_addr_out=1;
+			DP_RAM_addr_out=1; //da el color verde leyendo el archivo image.men
 		//Raqueta roja
 		if ((VGA_posX>cont2) && (VGA_posX<cont2+CAM_SCREEN_X) && (VGA_posY>410) &&(VGA_posY<425) )
-			DP_RAM_addr_out=2;
+			DP_RAM_addr_out=2; //da el color rojo leyendo el archivo image.men
 		else
 			DP_RAM_addr_out=0;
 		

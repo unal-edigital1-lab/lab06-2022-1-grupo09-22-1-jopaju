@@ -202,8 +202,47 @@ always @ ( posedge enable) begin
 ```
 - Movimiento de las raquetas (límites)
 
-Se dibujan las raquetas 
+Se dibujan las raquetas en una posición especifica de y y la posición x depende de un contador
+```verilog
+always @ (VGA_posX, VGA_posY) begin
+		//Raqueta verde
+		if ((VGA_posX>cont) && (VGA_posX<cont+CAM_SCREEN_X) && (VGA_posY>25) &&(VGA_posY<40) )
+			DP_RAM_addr_out=1;
+		//Raqueta roja
+		if ((VGA_posX>cont2) && (VGA_posX<cont2+CAM_SCREEN_X) && (VGA_posY>410) &&(VGA_posY<425) )
+			DP_RAM_addr_out=2;
+		else
+			DP_RAM_addr_out=0;
+
+```
+
+Luego los contadores aumentan o disminuyen dependiendo de si se estan oprimiendo unos pulsadores externos los cuales se ejecutan dentro de un proceso que tiene como reloj la señal enable que tiene una frecuencia mas baja para que la raqueta tenga una velocidad moderada.
+
+```verilog
+always @ ( posedge enable) begin
+// Movimiento Raqueta verde
+	if (~bntl1)  cont=cont-1;
+	if (~bntr1) cont=cont+1;
+	// Movimiento Raqueta roja
+	if (~bntl2)  cont2=cont2-1;
+	if (~bntr2) cont2=cont2+1;
+
+```
+Con la finalidad de que las raquetas no se salgan del borde de la pantalla, los contadores tienen dos valores limites.
+
+```verilog
+always @ ( posedge enable) begin
+// Limites de raquetas (para que no se salgan de la pantalla)
+	if (cont<=2) cont=2;	//R verde
+	if (cont>480) cont=480;
+	if (cont2<=2) cont2=2;	//R roja
+	if (cont2>480) cont2=480;
+
+```
+
 - Marcadores
+Son dos barritas visuales que aumentan de tamaño a medida que aumenta el score teniendo como límite 7 ptos, al llegar a este ambos puntajes se reinician en el valor 0.
+
 - Reset
 
 ### Video de funcionamiento final
