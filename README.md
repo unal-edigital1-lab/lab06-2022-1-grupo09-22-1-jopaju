@@ -52,53 +52,22 @@ Aunque esta propuesta es ineficiente en cuanto a memoria, pues en el archivo se 
   <img src="code\hdl\proyecto\Documentacion_fotografica\solucionColor.jpg" width="300">
 </p>
 
-video
+[![Corrección de colores](https://img.youtube.com/vi/HdHdDq-gi6E/0.jpg)](https://www.youtube.com/watch?v=HdHdDq-gi6E "Corrección de colores")
 
-.
-
-.
-
-.
-
-.
-
-.
-
-video
+Video: Corrección de colores
 
 
+2. Luego conociendo ya cómo controlar la pantalla se decidió implementar las barritas (raquetas). Inicialmente se dibujó una única barra en la pantalla y luego programando su movimiento, condicionado a un par de botones.
 
-2. Luego conociendo ya como controlar la pantalla se decidio implementar las barritas (raquetas), primero dibujandola en la pantalla y luego programando su movimiento condicionadolo a un par de botones.
+[![Movimiento de una sóla barra](https://img.youtube.com/vi/b86UV17NCzE/0.jpg)](https://www.youtube.com/watch?v=b86UV17NCzE "Movimiento de una sóla barra")
 
-video
+Video: Movimiento de una sóla barra
 
-.
+Posteriormente se duplicó el código para crear la raqueta del segundo jugador.
 
-.
+[![Movimiento de ambas raquetas](https://img.youtube.com/vi/mYR03Uy_QJk/0.jpg)](https://www.youtube.com/watch?v=mYR03Uy_QJk "Movimiento de ambas raquetas")
 
-.
-
-.
-
-.
-
-video
-
-Para despues duplicar este código y crear la barrita del segundo jugador.
-
-video
-
-.
-
-.
-
-.
-
-.
-
-.
-
-video
+Video: Movimiento de ambas raquetas
 
 3. Desarrollo de la "pelota"
     - Se inició pintando un cuadrado que representa la pelota y programandole movimiento en el eje x y en el eje y
