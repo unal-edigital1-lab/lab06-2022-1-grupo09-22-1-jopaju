@@ -1,4 +1,4 @@
-# WP01
+
 
 # Electrónica Digital I
 ## Proyecto final: Nacho Pong
