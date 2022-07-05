@@ -235,6 +235,8 @@ Son dos barritas visuales que aumentan de tamaño a medida que aumenta el score 
 ```
 ### Video de funcionamiento final
 
+ [![Video de sustentación.](https://img.youtube.com/vi/pZlWMfDvCqI/0.jpg)](https://www.youtube.com/watch?v=pZlWMfDvCqI7es "Marcador que reinicia. Delay pelota.")
+
 ### Conclusión
 
 - La FPGA es una herramienta muy poderosa para diseñar hadware que, aún con nuestro breve conociemiento sobre ella, se logró de manera satisfactoria cumplir el objetivo inicial: recrear el primer juego que tuvo éxito comercial entre la gente.
