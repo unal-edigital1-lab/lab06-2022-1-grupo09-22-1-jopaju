@@ -32,7 +32,7 @@ El control del videojuego se lleva a cabo en la FPGA, mientras que el video se e
 
 ### Proceso (Cronológico, cómo se desarrolló, primeros avances)
 
-1. El primer reto fue controlar la pantalla VGA por medio de la FPGA, para esto se interpretó y adató el código a nuestro modelo de tarjeta (xdxd Poner modelo aqui xdxd) pues esta solo permite usar RGB111 (un bit por cada color), mientras que el código dado por el profe estaba hecho para usar RGB444. Al intentar solucionar esto realizamos una mala lectura del archivo image.men obteniendo nuestro primer error.
+1. El primer reto fue controlar la pantalla VGA por medio de la FPGA, para esto se interpretó y adaptó el código a nuestro modelo de tarjeta (xdxd Poner modelo aqui xdxd) pues esta solo permite usar RGB111 (un bit por cada color), mientras que el código dado por el profe estaba hecho para usar RGB444. Al intentar solucionar esto realizamos una mala lectura del archivo image.men obteniendo nuestro primer error.
 
 
 <p align="center">
