@@ -71,7 +71,7 @@ Video: Movimiento de ambas raquetas
 
 3. Desarrollo de la "pelota"
     - Se inició pintando un cuadrado que representa la pelota y programandole movimiento en el eje x y en el eje y
-    - Luego se verfica si la pelota esta en algun borde de la pantalla 1px - 480px para el eje x, y 1px - 640px  para en eje y. En caso de que este en aguna de estas posiciones la pelota cambia de dirección 
+    - Luego se verfica si la pelota esta en algún borde de la pantalla 1px - 480px para el eje x, y 1px - 640px  para en eje y. En caso de que este en aguna de estas posiciones la pelota cambia de dirección 
 
 [![Movimiento de la pelota](https://img.youtube.com/vi/MVrTml957B8/0.jpg)](https://www.youtube.com/watch?v=MVrTml957B8 "Movimiento de la pelota")
 
@@ -205,14 +205,39 @@ always @ ( posedge enable) begin
 
 - Marcadores
 Son dos barritas visuales que aumentan de tamaño a medida que aumenta el score teniendo como límite 7 ptos, al llegar a este ambos puntajes se reinician en el valor 0.
+```verilog
+
+		// Dibujo de los marcadores.
+		if ((VGA_posX>=1) && (VGA_posX<=(marcadorverde*15)) && (VGA_posY>=5) && (VGA_posY<=17))
+			DP_RAM_addr_out=1;
+		if ((VGA_posX>=1) && (VGA_posX<=(marcadorrojo*15)) && (VGA_posY>=450) && (VGA_posY<=467))
+			DP_RAM_addr_out=2;	
+```
 
 - Reset
+```verilog
+	// Reset de juego 
+	if (~rst1) begin
+		//Reinicio Score
+		marcadorrojo=0;
+		marcadorverde=0;
 
+		//Centrar pelota
+		contx=10'b0101000000; 
+		conty=10'b0011110000;
+
+		// Centrar raquetas
+		cont=10'b0101000000;
+		cont2=10'b0101000000;
+		
+		end
+		
+```
 ### Video de funcionamiento final
 
-### Conclusiones
+### Conclusión
 
-- La FPGA es una herramienta muy poderosa que, aún con nuestro breve conociemiento sobre ella, se logró de manera satisfactoria cumplir el objetivo inicial: recrear el primer juego que tuvo éxito entre la gente.
+- La FPGA es una herramienta muy poderosa para diseñar hadware que, aún con nuestro breve conociemiento sobre ella, se logró de manera satisfactoria cumplir el objetivo inicial: recrear el primer juego que tuvo éxito comercial entre la gente.
 
 ### Referencias
 
