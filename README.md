@@ -73,31 +73,25 @@ Video: Movimiento de ambas raquetas
     - Se inició pintando un cuadrado que representa la pelota y programandole movimiento en el eje x y en el eje y
     - Luego se verfica si la pelota esta en algun borde de la pantalla 1px - 480px para el eje x, y 1px - 640px  para en eje y. En caso de que este en aguna de estas posiciones la pelota cambia de dirección 
 
-    video
+[![Movimiento de la pelota](https://img.youtube.com/vi/MVrTml957B8/0.jpg)](https://www.youtube.com/watch?v=MVrTml957B8 "Movimiento de la pelota")
 
-    .
-
-    .
-
-    .
-
-    .
-
-    .
-
-    video
+Video: Movimiento de la pelota
 
 4. Detectar anotación de punto
 
   Una vez se logró que la pelota limitara su movimiento al recuadro que aparece en pantalla, se siguió con la construcción de lo que sería la base para el puntaje: que se detectara en qué momento la pelota debería seguir con su movimiento a través de la pantalla debido a que rebotó con las raquetas; y en qué momento debía volver al centro de la pantalla ya que uno de los jugadores habría anotado un punto.
 
-5. Delay pelota
+5. Delay en la pelota luego de cada anotación
 
   Así, cuando la pelota no chocaba con las raquetas (cuando se anota un punto) la pelota iría de nuevo a su posición inicial, no obstante, lo que ocurría era que la pelota iniciaba de manera inmediata su movimiento, lo que trababa la jugabilidad, ya que hacía imposible que los jugadores reaccionaran en el tiempo correcto para seguir jugando, por lo que se decidió insertar un tiempo de espera después de cada punto. De este modo ahora, tras cada punto, los jugadores serán capaces de procesar el movimiento de la pelota y mejorar así la jugabilidad.
 
 6. Puntaje
 
   Luego, de hacer el proyecto estable y jugable, se procedió a iniciar con el puntaje, hecho con contadores que se refelejan en pantalla con barras que se hacen más grandes dependiendo de la cantidad de puntos que realicen los jugadores. Los puntajes se establecieron hasta 7.
+  
+  [![Marcador que reinicia. Delay pelota.](https://img.youtube.com/vi/Wbp0RlOy7es/0.jpg)](https://www.youtube.com/watch?v=Wbp0RlOy7es "Marcador que reinicia. Delay pelota.")
+
+Video: Marcador que reinicia. Delay pelota.
 
 7. Reset
 
