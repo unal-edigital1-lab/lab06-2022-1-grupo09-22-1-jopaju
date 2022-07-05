@@ -1,6 +1,6 @@
 # WP01
 
-# Elecrtónica Digital I
+# Electrónica Digital I
 ## Proyecto final: Nacho Pong
 
 ### Integrantes
