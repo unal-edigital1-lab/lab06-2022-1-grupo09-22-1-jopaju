@@ -40,7 +40,7 @@ El control del videojuego se lleva a cabo en la FPGA, mientras que el video se e
 </p>
 
 Para solucionar esto se usó unicamente el último bit de cada color, es decir:
-| Linea de archivo image.men | "Tradución" a binario | Último bit de cada color|
+| Linea de archivo image.men | "Traducción" a binario | Último bit de cada color|
 | ------------- | ------------- |------------- |
 | F00  | 1111 0000 0000 |100|
 | 0FF  | 0000 1111 1111  |011|
